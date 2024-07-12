@@ -1,0 +1,74 @@
+filas = 10
+columnas = 10
+sala_de_cine = [['D' for _ in range(columnas)] for _ in range(filas)]
+
+# Precios por fila
+precios = [10000, 10000, 10000, 18500, 18500, 18500, 21500, 21500, 21500, 21500]
+
+# Función para mostrar el estado de los asientos
+def mostrar_asientos():
+    print("\nEstado de los asientos:")
+    for fila in sala_de_cine:
+        print(" ".join(fila))   
+    print()
+
+# Función para reservar un asiento
+def reservar_asiento(fila, columna):
+    if sala_de_cine[fila][columna] == 'D':
+        sala_de_cine[fila][columna] = 'R'
+        print(f"¡Asiento {fila}-{columna} reservado con éxito!")
+    else:
+        print(f"El asiento {fila}-{columna} ya está reservado.")
+
+# Función para anular una reserva
+def anular_reserva(fila, columna):
+    if sala_de_cine[fila][columna] == 'R':
+        sala_de_cine[fila][columna] = 'D'
+        print(f"Reserva del asiento {fila}-{columna} anulada.")
+    else:
+        print(f"El asiento {fila}-{columna} no está reservado.")
+
+# Función para totalizar ventas del día
+def totalizar_ventas():
+    total_ventas = sum(precios[fila] * fila.count('R') for fila in sala_de_cine)
+    print(f"Total de ventas del día: ${total_ventas}")
+
+# Función para guardar información en un archivo.txt
+def guardar_en_archivo():
+    with open("registros.txt", "w") as archivo:
+        for fila in range(filas):
+            for columna in range(columnas):
+                if sala_de_cine[fila][columna] == 'R':
+                    archivo.write(f"Asiento {fila}-{columna}\n")
+
+# Menú principal
+while True:
+    print("\n--- Menú ---")
+    print("1. Reservar asiento")
+    print("2. Buscar asiento")
+    print("3. Ver estado de los asientos")
+    print("4. Totalizar ventas del día")
+    print("5. Guardar registros en archivo")
+    print("6. Salir")
+    opcion = input("Seleccione una opción (1-6): ")
+
+    if opcion == '1':
+        fila = int(input("Ingrese el número de fila: "))
+        columna = int(input("Ingrese el número de columna: "))
+        reservar_asiento(fila, columna)
+    elif opcion == '2':
+        fila = int(input("Ingrese el número de fila: "))
+        columna = int(input("Ingrese el número de columna: "))
+        # Implementa la búsqueda por código aquí
+    elif opcion == '3':
+        mostrar_asientos()
+    elif opcion == '4':
+        totalizar_ventas()
+    elif opcion == '5':
+        guardar_en_archivo()
+        print("Registros guardados en archivo 'registros.txt'")
+    elif opcion == '6':
+        print("¡Hasta luego!")
+        break
+    else:
+        print("Opción inválida. Intente nuevamente.")
